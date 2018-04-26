@@ -5,8 +5,16 @@ import request from './http';
 const baseUrl='/koa'
 async function httpGet(url,params={}){
   let query=qs.stringify(params);
-  const res=await request(baseUrl+url+'?'+query,{method:'GET'});
-  return res;
+  let res;
+  try{
+    res=await request(baseUrl+url+'?'+query,{method:'GET'});
+    return res;
+  }catch(e){
+    if(e===401){
+      console.log(456);
+      window.location.href='http://localhost:8000/login'
+    }
+  }
 }
 
 async function httpPost(url,params={},dataType){
@@ -28,8 +36,15 @@ async function httpPost(url,params={},dataType){
       }
     }
   }
-  const res=await request(baseUrl+url,option);
-  return res;
+  let res;
+  try{
+    res=await request(baseUrl+url,option);
+    return res;
+  }catch(e){
+    if(e===401){
+       window.location.href='http://localhost:8000/login'
+     }
+  }
 }
 
 

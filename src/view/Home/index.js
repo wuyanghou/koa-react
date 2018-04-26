@@ -1,20 +1,77 @@
 import React from 'react';
-import httpGet from 'SERVICE/index';
-export default class Home extends React.PureComponent{
-  constructor(props){
-    super(props);
+import {httpGet, httpPost} from 'SERVICE/index';
+import {Table,message,Button} from 'antd';
+import Modal from './Modal/index';
+import styles from './index.less';
+export default class Home extends React.PureComponent {
+  state = {};
+  async componentDidMount() {
+    this.loadData();
   }
-  async componentDidMount(){
-    let res=await httpGet('/login',{name:'luoming',password:'222'});
-    console.log(res);
+
+  loadData = async () => {
+    this.setState({loading: true});
+    let {username, data} = await httpGet('/getInformation');
+    data = data.map((v, k) => {
+      return {key: k, ...v};
+    })
+    this.setState({username, data, loading: false});
   }
-  render(){
+
+  deleteInfo = async (id) => {
+    this.setState({loading:true});
+    await httpPost('/deleteInfo', {id}, 'json');
+    message.success('删除成功',1);
+    this.loadData();
+  }
+  changeInfo=async (id)=>{
+    this.setState({id,addVisiable:true})
+  }
+  onSuccess=()=>{
+    this.setState({addVisiable:false});
+    this.loadData();
+  }
+
+  render() {
+    let {loading,addVisiable, username, data = [],id} = this.state;
+    const columns = [
+      {
+        title: '名字',
+        dataIndex: 'name',
+        key: 'name',
+      }, {
+        title: '年龄',
+        dataIndex: 'age',
+        key: 'age',
+      }, {
+        title: '电话',
+        dataIndex: 'phone',
+        key: 'phone',
+      }, {
+        title: '操作',
+        key: 'action',
+        render: (text, record) => {
+          let {id} = record;
+          return (
+            <div className={styles.action}>
+              <span onClick={e => {this.deleteInfo(id)}}>删除</span>
+              <span onClick={e => {this.changeInfo(id)}}>修改</span>
+            </div>
+            )
+        },
+      }
+    ];
+
     return (
       <div>
-        <img src="" alt=""/>
-        <h1>这是一个本人练手的项目，用来熟悉react及其他的知识点，其中包括但并不限于defaultProps，context，mobx，mobx-react，
-          mirror，PureComponent,webworker，装饰器函数==后续补充
-        </h1>
+        <div className={styles.header}>
+          <h1>当前登录用户是{username}</h1>
+          <Button type='primary' onClick={e=>this.setState({addVisiable:true})}>新增</Button>
+        </div>
+        <Table loading={loading} columns={columns} dataSource={data}/>
+        {addVisiable &&
+         <Modal onClose={e=>this.setState({addVisiable:false})} onSuccess={this.onSuccess} id={id}/>
+        }
       </div>
     )
   }

@@ -16,7 +16,8 @@ const Home=asyncComponent(()=>import('../../view/Home'));
 class Wrap extends React.Component{
   state={};
   componentWillMount(){
-    console.log(8989);
+   let {history}=this.props;
+    history.push('/home');
   }
   render(){
     return (
