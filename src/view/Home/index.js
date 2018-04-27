@@ -1,8 +1,10 @@
 import React from 'react';
 import {httpGet, httpPost} from 'SERVICE/index';
-import {Table,message,Button} from 'antd';
+import {Table,message,Button,Input} from 'antd';
 import Modal from './Modal/index';
 import styles from './index.less';
+import SearchBar from 'COMPONENT/SearchBar';
+
 export default class Home extends React.PureComponent {
   state = {};
   async componentDidMount() {
@@ -18,6 +20,9 @@ export default class Home extends React.PureComponent {
     this.setState({username, data, loading: false});
   }
 
+  search=()=>{
+
+  }
   deleteInfo = async (id) => {
     this.setState({loading:true});
     await httpPost('/deleteInfo', {id}, 'json');
@@ -33,7 +38,7 @@ export default class Home extends React.PureComponent {
   }
 
   render() {
-    let {loading,addVisiable, username, data = [],id} = this.state;
+    let {loading,addVisiable, username, data = [],id,name,age,phone} = this.state;
     const columns = [
       {
         title: '名字',
@@ -61,12 +66,18 @@ export default class Home extends React.PureComponent {
         },
       }
     ];
-
     return (
       <div>
         <div className={styles.header}>
           <h1>当前登录用户是{username}</h1>
           <Button type='primary' onClick={e=>this.setState({addVisiable:true})}>新增</Button>
+        </div>
+        <div>
+          <SearchBar onSearch={this.search}>
+            <Input value={name} onChange={e=>this.setState({name:e.target.value})}/>
+            <Input value={age} onChange={e=>this.setState({age:e.target.value})}/>
+            <Input value={phone} onChange={e=>this.setState({phone:e.target.value})}/>
+          </SearchBar>
         </div>
         <Table loading={loading} columns={columns} dataSource={data}/>
         {addVisiable &&

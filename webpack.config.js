@@ -31,7 +31,8 @@ const config = {
       'STATIC': resolve('static'),
       'UTIL': resolve('src/utils'),
       'ASSETS': resolve('src/assets'),
-      'SERVICE':resolve('src/services')
+      'SERVICE':resolve('src/services'),
+      'COMPONENT':resolve('src/component'),
     }
   },
   module: {

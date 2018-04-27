@@ -32,6 +32,10 @@ class RegistrationForm extends React.Component {
     }
     callback();
   }
+  register=()=>{
+    let {history}=this.props;
+    history.push('/register')
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -75,8 +79,9 @@ class RegistrationForm extends React.Component {
               <Input type="password" />
             )}
           </FormItem>
-          <FormItem>
-            <Button type="primary" htmlType="submit">Register</Button>
+          <FormItem style={{textAlign:'center'}}>
+            <Button type="primary" htmlType="submit" className={styles.loginBtn}>登录</Button>
+            <Button onClick={this.register}>注册</Button>
           </FormItem>
         </Form>
       </div>

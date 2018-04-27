@@ -1,8 +1,9 @@
 import React from 'react';
 import {Router, Route,NavLink} from 'mirrorx'
-import {Menu, Icon} from 'antd';
+import {Menu, Icon,Button,message} from 'antd';
 import asyncComponent from '../../asyncComponent'
-
+import {httpGet} from 'SERVICE/index';
+import styles from './index.less';
 const MenuItem = Menu.Item;
 
 
@@ -19,9 +20,25 @@ class Wrap extends React.Component{
    let {history}=this.props;
     history.push('/home');
   }
+  logout=async ()=>{
+    let {history}=this.props;
+    await httpGet('/logout');
+    message.success('退出成功',1);
+    history.push('/login');
+
+    var obj = {
+      _count:3,
+      get count() {
+        return this._count<=2?3:this._count
+      },
+      set count(n){
+        this._count=n;
+      }
+    }
+  }
   render(){
     return (
-      <div>
+      <div className={styles.header}>
         <Menu
           mode="horizontal"
           theme="dark"
@@ -49,6 +66,7 @@ class Wrap extends React.Component{
             <a target="_blank" href="https://github.com/mirrorjs/mirror">Mirror</a>
           </MenuItem>
         </Menu>
+        <Button onClick={this.logout} className={styles.logout}>安全退出</Button>
           <div>
             <Route path="/home" component={Home} />
             <Route path="/defaultProps" component={DefaultProps} />
