@@ -11,7 +11,6 @@ class RegistrationForm extends React.Component {
     autoCompleteResult: [],
   };
   handleSubmit = (e) => {
-    console.log(this.props);
     const {history}=this.props;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll(async(err, values) => {
@@ -53,31 +52,23 @@ class RegistrationForm extends React.Component {
         <Form onSubmit={this.handleSubmit}>
           <FormItem
             {...formItemLayout}
-            label="E-mail"
-          >
+            label="账号  ">
             {getFieldDecorator('email', {
               rules: [{
-                type: 'email', message: 'The input is not valid E-mail!',
-              }, {
-                required: true, message: 'Please input your E-mail!',
+                required: true, message: '必填项!',
               }],
-            })(
-              <Input />
-            )}
+            })(<Input />)}
           </FormItem>
           <FormItem
             {...formItemLayout}
-            label="Password"
-          >
+            label="密码  ">
             {getFieldDecorator('password', {
               rules: [{
-                required: true, message: 'Please input your password!',
+                required: true, message: '必填项!',
               }, {
                 validator: this.validateToNextPassword,
               }],
-            })(
-              <Input type="password" />
-            )}
+            })(<Input type="password" />)}
           </FormItem>
           <FormItem style={{textAlign:'center'}}>
             <Button type="primary" htmlType="submit" className={styles.loginBtn}>登录</Button>
