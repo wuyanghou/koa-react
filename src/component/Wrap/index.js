@@ -11,7 +11,7 @@ const FormItem = Form.Item;
 const DefaultProps = asyncComponent(() => import('../../view/DefaultProps'));
 const Mobx = asyncComponent(() => import('../../view/Mobx'));
 const Context = asyncComponent(() => import('../../view/Context'));
-// const Webworker = asyncComponent(() => import('../../view/Webworker'));
+const Oss = asyncComponent(() => import('../../view/Oss'));
 const ChildRouter = asyncComponent(() => import('../../view/ChildRouter'));
 const Home = asyncComponent(() => import('../../view/Home'));
 
@@ -89,9 +89,9 @@ class Wrap extends React.Component {
           <MenuItem key="/context">
             <NavLink to="/context"><Icon type="frown-circle"/>context</NavLink>
           </MenuItem>
-          {/*<MenuItem key="/webworker">*/}
-            {/*<NavLink to="/webworker"><Icon type="frown-circle"/>webworker</NavLink>*/}
-          {/*</MenuItem>*/}
+          <MenuItem key="/oss">
+            <NavLink to="/oss"><Icon type="frown-circle"/>oss</NavLink>
+          </MenuItem>
           <MenuItem key="/childrouter">
             <NavLink to="/childrouter"><Icon type="frown-circle"/>childrouter</NavLink>
           </MenuItem>
@@ -106,7 +106,7 @@ class Wrap extends React.Component {
           <Route path="/defaultProps" component={DefaultProps}/>
           <Route path="/mobx" component={Mobx}/>
           <Route path="/context" component={Context}/>
-          {/*<Route path="/webworker" component={Webworker}/>*/}
+          <Route path="/oss" component={Oss}/>
           <Route path="/childrouter" component={ChildRouter}/>
         </div>
         <Modal
