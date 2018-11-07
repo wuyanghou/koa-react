@@ -11,8 +11,11 @@ async function httpGet(url,params={}){
     return res;
   }catch(e){
     if(e===401){
-      console.log(456);
-      window.location.href='http://localhost:8000/login'
+      let href='http://localhost:8000/login';
+      if (process.env.NODE_ENV === 'production'){
+        href='https://www.luomings.com/login';
+      }
+        window.location.href=href;
     }
   }
 }
